@@ -38,7 +38,32 @@ const AuthForm = () => {
         })
         .catch((e)=>console.log(e));
         setLoading(false);
+    }else{
+      setLoading(true);
+      fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBP8kanqzI5kp3ArEukdpOp7NjnV7fgnJ8",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: emailRef.current.value,
+            password: passRef.current.value,
+            returnSecureToken: true,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => {
+          if (res.ok) {
+            res.json().then(data=>console.log(data.idToken));
+          } else {
+            res.json().then(data=>alert(data.error.message));
+          }
+        })
+        .catch((e)=>console.log(e));
     }
+    setLoading(false);
   };
   //
   return (
