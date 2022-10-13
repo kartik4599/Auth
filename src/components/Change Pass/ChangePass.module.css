@@ -1,0 +1,25 @@
+.change{
+    width: 90%;
+    text-align: center;
+}
+
+.change h3{
+    font-size: 30px;
+    color: purple;
+}
+
+.change input{
+    border: 2px solid purple;
+    width: 50%;
+    border-radius: 20px;
+    padding: 5px 0px;
+    margin: 20px;
+}
+
+.change button{
+    padding: 15px 40px;
+    color: white;
+    background: purple;
+    border: none;
+    border-radius: 30px;
+}
