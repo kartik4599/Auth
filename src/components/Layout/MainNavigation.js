@@ -8,7 +8,6 @@ const MainNavigation = () => {
   const cxt = useContext(ContextAuth);
 
   const removeHandler=()=>{
-    console.log(cxt.removeId);
     cxt.removeId();
   }
   return (
@@ -22,7 +21,7 @@ const MainNavigation = () => {
             <Link to="/auth">Login</Link>
           </li>
           <li>{cxt.isLogin && <Link to="/profile">Profile</Link>}</li>
-          <li>{cxt.isLogin && <button onClick={removeHandler}>Logout</button>}</li>
+          <li>{cxt.isLogin && <Link to="/"><button onClick={removeHandler}>Logout</button></Link>}</li>
         </ul>
       </nav>
     </header>

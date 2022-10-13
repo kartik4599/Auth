@@ -1,14 +1,13 @@
 import { useContext, useRef, useState } from "react";
 import ContextAuth from "../../Context/auth-context";
-
+import { useHistory } from "react-router-dom";
 import classes from "./AuthForm.module.css";
 
 const AuthForm = () => {
   const emailRef = useRef();
   const passRef = useRef();
-
   const cxt = useContext(ContextAuth);
-
+  const history= useHistory();
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setLoading] = useState(false);
   const switchAuthModeHandler = () => {
@@ -59,8 +58,10 @@ const AuthForm = () => {
       if (res.ok) {
         const data = await res.json();
         cxt.addId(data.idToken);
-      }else{
-        const data=await res.json();
+        console.log("Done");
+        history.replace('/change');
+      } else {
+        const data = await res.json();
         alert(data.error.message);
       }
     }

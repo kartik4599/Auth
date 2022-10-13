@@ -4,7 +4,7 @@ const ContextAuth = React.createContext({
   id: "",
   addId: (id) => {},
   removeId: () => {},
-  isLogin: true,
+  isLogin: false,
 });
 
 export default ContextAuth;

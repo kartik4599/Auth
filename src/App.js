@@ -1,4 +1,5 @@
 import { Switch, Route } from "react-router-dom";
+import ChangePass from "./components/Change Pass/ChangePass";
 
 import Layout from "./components/Layout/Layout";
 import UserProfile from "./components/Profile/UserProfile";
@@ -8,8 +9,8 @@ import HomePage from "./pages/HomePage";
 
 function App() {
   return (
-    <Layout>
-      <AuthProvider>
+    <AuthProvider>
+      <Layout>
         <Switch>
           <Route path="/" exact>
             <HomePage />
@@ -20,9 +21,12 @@ function App() {
           <Route path="/profile">
             <UserProfile />
           </Route>
+          <Route path="/change">
+            <ChangePass/>
+          </Route>
         </Switch>
-      </AuthProvider>
-    </Layout>
+      </Layout>
+    </AuthProvider>
   );
 }
 

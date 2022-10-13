@@ -9,8 +9,6 @@ const AuthProvider = (props) => {
 
   const idReducer = (state, action) => {
     if (action.type === "Add") {
-      console.log(action.id);
-      console.log(state);
       return {
         id: action.id,
         isLogin: true,
@@ -30,12 +28,10 @@ const AuthProvider = (props) => {
   const [idState, dispatchId] = useReducer(idReducer, deafultID);
 
   const addHandler = (id) => {
-    console.log("login");
     dispatchId({ type: "Add", id: id });
   };
 
   const removeHandler = () => {
-    console.log("logout");
     dispatchId({ type: "Remove" });
   };
 
