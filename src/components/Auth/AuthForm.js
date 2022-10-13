@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import ContextAuth from "../../Context/auth-context";
 
 import classes from "./AuthForm.module.css";
 
@@ -6,17 +7,19 @@ const AuthForm = () => {
   const emailRef = useRef();
   const passRef = useRef();
 
+  const cxt = useContext(ContextAuth);
+
   const [isLogin, setIsLogin] = useState(true);
-  const [isLoading,setLoading]= useState(false);
+  const [isLoading, setLoading] = useState(false);
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
 
-  const submihandler = (e) => {
+  const submihandler = async (e) => {
     e.preventDefault();
     if (!isLogin) {
       setLoading(true);
-      fetch(
+      const res = await fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBP8kanqzI5kp3ArEukdpOp7NjnV7fgnJ8",
         {
           method: "POST",
@@ -29,18 +32,16 @@ const AuthForm = () => {
             "Content-Type": "application/json",
           },
         }
-      )
-        .then((res) => {
-          if (res.ok) {
-          } else {
-            res.json().then(data=>alert(data.error.message));
-          }
-        })
-        .catch((e)=>console.log(e));
-        setLoading(false);
-    }else{
+      );
+
+      if (res.ok) {
+      } else {
+        res.json((data) => alert(data.error.message));
+      }
+      setLoading(false);
+    } else {
       setLoading(true);
-      fetch(
+      const res = await fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBP8kanqzI5kp3ArEukdpOp7NjnV7fgnJ8",
         {
           method: "POST",
@@ -53,16 +54,17 @@ const AuthForm = () => {
             "Content-Type": "application/json",
           },
         }
-      )
-        .then((res) => {
-          if (res.ok) {
-            res.json().then(data=>console.log(data.idToken));
-          } else {
-            res.json().then(data=>alert(data.error.message));
-          }
-        })
-        .catch((e)=>console.log(e));
+      );
+
+      if (res.ok) {
+        const data = await res.json();
+        cxt.addId(data.idToken);
+      }else{
+        const data=await res.json();
+        alert(data.error.message);
+      }
     }
+
     setLoading(false);
   };
   //
@@ -84,7 +86,8 @@ const AuthForm = () => {
           <button
             type="button"
             className={classes.toggle}
-            onClick={switchAuthModeHandler}>
+            onClick={switchAuthModeHandler}
+          >
             {isLogin ? "Create new account" : "Login with existing account"}
           </button>
         </div>
