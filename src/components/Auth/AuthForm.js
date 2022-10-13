@@ -40,6 +40,7 @@ const AuthForm = () => {
       setLoading(false);
     } else {
       setLoading(true);
+      console.log("login");
       const res = await fetch(
         "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBP8kanqzI5kp3ArEukdpOp7NjnV7fgnJ8",
         {
@@ -58,7 +59,8 @@ const AuthForm = () => {
       if (res.ok) {
         const data = await res.json();
         cxt.addId(data.idToken);
-        console.log("Done");
+        await setTimeout(()=>{},2000);
+        console.log(cxt);
         history.replace('/change');
       } else {
         const data = await res.json();

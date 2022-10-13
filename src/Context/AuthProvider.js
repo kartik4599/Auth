@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useEffect, useReducer } from "react";
 import ContextAuth from "./auth-context";
 
 const AuthProvider = (props) => {
@@ -9,6 +9,15 @@ const AuthProvider = (props) => {
 
   const idReducer = (state, action) => {
     if (action.type === "Add") {
+      localStorage.setItem("login", action.id);
+      console.log("done");
+      return {
+        id: action.id,
+        isLogin: true,
+      };
+    }
+
+    if (action.type === "local") {
       return {
         id: action.id,
         isLogin: true,
@@ -16,6 +25,7 @@ const AuthProvider = (props) => {
     }
 
     if (action.type === "Remove") {
+      localStorage.removeItem("login");
       return {
         id: "",
         isLogin: false,
@@ -34,6 +44,14 @@ const AuthProvider = (props) => {
   const removeHandler = () => {
     dispatchId({ type: "Remove" });
   };
+
+  //local storage
+  useEffect(() => {
+    const isLogin = localStorage.getItem("login");
+    if (isLogin) {
+      dispatchId({ type: "local", id: isLogin });
+    }
+  }, []);
 
   const auth = {
     id: idState.id,
